@@ -7,17 +7,32 @@ const SearchForm = ({ onSearch, isLoading }) => {
     destination: 'JFK',
     outboundDate: '2025-12-01',
     returnDate: '2025-12-15',
-    location: '',
-    checkInDate: '',
-    checkOutDate: '',
+    location: 'JFK',
+    checkInDate: '2025-12-01',
+    checkOutDate: '2025-12-15',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+
+      // Auto-fill hotel info when flights parameters change
+      if (name === "destination") {
+        updated.location = value;
+      }
+
+      if (name === "outboundDate") {
+        updated.checkInDate = value;
+      }
+
+      if (name === "returnDate") {
+        updated.checkOutDate = value;
+      }
+
+      return updated;
+    });
   };
 
   const handleSubmit = (e) => {
